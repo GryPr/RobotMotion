@@ -4,16 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70659cb7-d69c-4780-93d4-38b9c25d6705" name="Changes" comment="Add IntelliJ encodings.xml">
+    <list default="true" id="70659cb7-d69c-4780-93d4-38b9c25d6705" name="Changes" comment="Add DisplayController">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/coen448/Configuration/DisplayConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/coen448/Controller/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/coen448/Controller/DisplayController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/coen448/Module/BasicModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/Controller/DisplayControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/coen448/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/coen448/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="MIXED" />
   </component>
@@ -33,20 +52,110 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager" selected="JUnit.DisplayControllerTest.GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage">
+    <configuration name="DisplayControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RobotMotion" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Controller" />
+      <option name="MAIN_CLASS_NAME" value="Controller.DisplayControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayControllerTest.GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RobotMotion" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Controller" />
+      <option name="MAIN_CLASS_NAME" value="Controller.DisplayControllerTest" />
+      <option name="METHOD_NAME" value="GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage(java.lang.String)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayControllerTest.GIVEN_invalidSeparatorDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RobotMotion" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Controller" />
+      <option name="MAIN_CLASS_NAME" value="Controller.DisplayControllerTest" />
+      <option name="METHOD_NAME" value="GIVEN_invalidSeparatorDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayControllerTest.GIVEN_nonNumericalDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RobotMotion" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Controller" />
+      <option name="MAIN_CLASS_NAME" value="Controller.DisplayControllerTest" />
+      <option name="METHOD_NAME" value="GIVEN_nonNumericalDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DisplayControllerTest.GIVEN_shortDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RobotMotion" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Controller" />
+      <option name="MAIN_CLASS_NAME" value="Controller.DisplayControllerTest" />
+      <option name="METHOD_NAME" value="GIVEN_shortDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.DisplayControllerTest.GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+        <item itemvalue="JUnit.DisplayControllerTest" />
+        <item itemvalue="JUnit.DisplayControllerTest.GIVEN_invalidSeparatorDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+        <item itemvalue="JUnit.DisplayControllerTest.GIVEN_nonNumericalDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+        <item itemvalue="JUnit.DisplayControllerTest.GIVEN_shortDoubleInputCommand_WHEN_showMenu_THEN_outputErrorMessage" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -56,6 +165,7 @@
       <option name="presentableId" value="Default" />
       <updated>1673228804717</updated>
       <workItem from="1673228806215" duration="221000" />
+      <workItem from="1673302637956" duration="5193000" />
     </task>
     <task id="LOCAL-00001" summary="Add IntelliJ encodings.xml">
       <created>1673229179011</created>
@@ -64,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673229179011</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add Guice and Lombok">
+      <created>1673229446148</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1673229446148</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -84,6 +201,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initialize project" />
     <MESSAGE value="Add IntelliJ encodings.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add IntelliJ encodings.xml" />
+    <MESSAGE value="Add Guice and Lombok" />
+    <MESSAGE value="Add DisplayController" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add DisplayController" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Robot_Motion$DisplayControllerTest_GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage.ic" NAME="DisplayControllerTest.GIVEN_invalidCommand_WHEN_showMenu_THEN_outputErrorMessage Coverage Results" MODIFIED="1673307682533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Robot_Motion$DisplayControllerTest.ic" NAME="DisplayControllerTest Coverage Results" MODIFIED="1673307737755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Controller.*</FILTER>
+    </SUITE>
   </component>
 </project>
