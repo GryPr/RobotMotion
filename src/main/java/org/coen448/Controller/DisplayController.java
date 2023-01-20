@@ -10,14 +10,15 @@ import java.util.Scanner;
 public class DisplayController {
     public boolean running;
     public void loopMenu() {
+        System.out.println(DisplayConfiguration.commandMenu);
         running = true;
         while (running) {
-            showMenu();
+            menu();
         }
     }
-    public void showMenu() {
+
+    public void menu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println(DisplayConfiguration.commandMenu);
         String input;
 
         try {
@@ -26,6 +27,7 @@ public class DisplayController {
             System.out.println(DisplayConfiguration.inputErrorMessage);
             return;
         }
+
         final Character commandChar = Character.toLowerCase(input.charAt(0));
         final Command command = DisplayConfiguration.commandInputMap.get(commandChar);
 
@@ -35,7 +37,10 @@ public class DisplayController {
             return;
         }
 
-        // Handle commands
+        handleCommand(input, command);
+    }
+
+    private void handleCommand(final String input, final Command command) {
         switch (command) {
             case PEN_UP -> {}
             case PEN_DOWN -> {}
@@ -49,6 +54,11 @@ public class DisplayController {
             }
             case INITIALIZE -> {}
         }
+    }
+
+    private int extractIntArgument(final String input) {
+        final String[] splitInput = input.split(" ");
+        return Integer.parseInt(splitInput[splitInput.length - 1]);
     }
 
     private boolean validateInput(final String input, final Command command) {

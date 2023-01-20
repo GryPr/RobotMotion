@@ -45,10 +45,10 @@ public class DisplayControllerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        displayController.showMenu();
+        displayController.menu();
 
         String output = outputContent.toString();
-        String errorMessage = output.split(System.getProperty("line.separator"))[1];
+        String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(DisplayConfiguration.inputErrorMessage, errorMessage);
     }
