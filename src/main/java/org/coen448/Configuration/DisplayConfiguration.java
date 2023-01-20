@@ -1,6 +1,7 @@
 package org.coen448.Configuration;
 
 import org.coen448.Controller.Command;
+import org.coen448.Exception.Error;
 
 import java.util.*;
 
@@ -52,6 +53,4 @@ public class DisplayConfiguration {
                     [Q|q] Stop the program
                     [I n|i n] Initialize the system: The values of the array floor are zeros and the robot is back to [0, 0], pen up and facing north. n size of the array, an integer greater than zero
                     """;
-
-    public static String inputErrorMessage = "Command input not recognized, please try again";
 }
