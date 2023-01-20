@@ -1,13 +1,22 @@
 package org.coen448.Controller;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import lombok.RequiredArgsConstructor;
 import org.coen448.Configuration.DisplayConfiguration;
+import org.coen448.Exception.BaseException;
+import org.coen448.Exception.Error;
+import org.coen448.Service.ProgramStatusService;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @Singleton
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class DisplayController {
+    @Inject
+    private final ProgramStatusService programStatusService;
+
     public boolean running;
     public void loopMenu() {
         System.out.println(DisplayConfiguration.commandMenu);
@@ -24,7 +33,7 @@ public class DisplayController {
         try {
             input = sc.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.println(DisplayConfiguration.inputErrorMessage);
+            System.out.println(BaseException.errorMessageMap.get(Error.COMMAND_INPUT_ERROR));
             return;
         }
 
@@ -33,7 +42,7 @@ public class DisplayController {
 
         // Validate the command input is in the correct format
         if (!validateInput(input, command)) {
-            System.out.println(DisplayConfiguration.inputErrorMessage);
+            System.out.println(BaseException.errorMessageMap.get(Error.COMMAND_INPUT_ERROR));
             return;
         }
 
@@ -41,18 +50,29 @@ public class DisplayController {
     }
 
     private void handleCommand(final String input, final Command command) {
-        switch (command) {
-            case PEN_UP -> {}
-            case PEN_DOWN -> {}
-            case TURN_RIGHT -> {}
-            case TURN_LEFT -> {}
-            case MOVE_FORWARD -> {}
-            case PRINT_ARRAY -> {}
-            case PRINT_POSITION -> {}
-            case QUIT -> {
-                running = false;
+        try {
+            switch (command) {
+                case PEN_UP -> {
+                }
+                case PEN_DOWN -> {
+                }
+                case TURN_RIGHT -> {
+                }
+                case TURN_LEFT -> {
+                }
+                case MOVE_FORWARD -> {
+                }
+                case PRINT_ARRAY -> {
+                }
+                case PRINT_POSITION -> {
+                }
+                case QUIT -> {
+                    running = false;
+                }
+                case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
             }
-            case INITIALIZE -> {}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
