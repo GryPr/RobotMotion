@@ -16,4 +16,8 @@ public class StateData {
     private boolean penDown = false;
 
     private Orientation orientation = Orientation.NORTH;
+
+    private int xPosition = 0;
+
+    private int yPosition = 0;
 }
