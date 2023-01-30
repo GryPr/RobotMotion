@@ -7,6 +7,7 @@ import org.coen448.Data.Orientation;
 import org.coen448.Data.StateData;
 import org.coen448.Exception.MaxDistanceException;
 import org.coen448.Exception.MinDistanceException;
+import org.coen448.Exception.NoInitException;
 
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class MoveService {
     @Inject
     private final StateData stateData;
 
-    public void move(int distance) throws MaxDistanceException, MinDistanceException {
+    public void move(int distance) throws MaxDistanceException, MinDistanceException, NoInitException {
+        final List<List<Integer>> matrix = stateData.getMatrix();
+        
+        if(matrix == null) throw new NoInitException();
         if (distance < 1) throw new MinDistanceException();
 
-        final List<List<Integer>> matrix = stateData.getMatrix();
         final int matrixLength = matrix.size();
         final int xPosition = stateData.getXPosition();
         final int yPosition = stateData.getYPosition();

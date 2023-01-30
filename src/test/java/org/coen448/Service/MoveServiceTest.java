@@ -4,6 +4,7 @@ import org.coen448.Data.Orientation;
 import org.coen448.Data.StateData;
 import org.coen448.Exception.MaxDistanceException;
 import org.coen448.Exception.MinDistanceException;
+import org.coen448.Exception.NoInitException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -144,5 +145,12 @@ class MoveServiceTest {
                 }
             }
         }
+    }
+
+    @Test
+    void GIVEN_gridNotInitialized_WHEN_move_THEN_outputErrorMessage() {
+        stateData = new StateData();
+        moveService = new MoveService(stateData);
+        Assertions.assertThrows(NoInitException.class, () -> moveService.move(5), "NoInitException expected to be thrown");
     }
 }
