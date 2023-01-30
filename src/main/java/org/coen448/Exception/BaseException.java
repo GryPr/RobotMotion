@@ -9,7 +9,7 @@ public class BaseException extends Exception{
         put(Error.INIT_SIZE_ERROR, "n (size of the array) needs to be greater than 1");
         put(Error.MAX_DISTANCE_ERROR, "Distance s is over boundaries of grid, please try again with a smaller distance s");
         put(Error.MIN_DISTANCE_ERROR, "Distance s less than 1, please enter a positive distance higher than 0");
-        put(Error.NO_INIT_ERROR, "Grid has not been initialized, please initialize it before making an operation on the robot");
+        put(Error.NO_INIT_ERROR, "Grid has not been initialized, please initialize it before making an operation or trying to display it");
     }};
 
     public BaseException(Error error) {
