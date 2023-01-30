@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.coen448.Configuration.DisplayConfiguration;
 import org.coen448.Exception.BaseException;
 import org.coen448.Exception.Error;
+import org.coen448.Service.MoveService;
 import org.coen448.Service.ProgramStatusService;
 
 import java.util.NoSuchElementException;
@@ -16,6 +17,8 @@ import java.util.Scanner;
 public class DisplayController {
     @Inject
     private final ProgramStatusService programStatusService;
+    @Inject
+    final MoveService moveService;
 
     public boolean running;
     public void loopMenu() {
@@ -60,8 +63,7 @@ public class DisplayController {
                 }
                 case TURN_LEFT -> {
                 }
-                case MOVE_FORWARD -> {
-                }
+                case MOVE_FORWARD -> moveService.move(extractIntArgument(input));
                 case PRINT_ARRAY -> {
                 }
                 case PRINT_POSITION -> {
