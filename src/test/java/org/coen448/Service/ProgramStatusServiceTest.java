@@ -51,5 +51,8 @@ class ProgramStatusServiceTest {
                 }
             }}, list);
         }
+
+        Assertions.assertEquals(0, stateData.getXPosition());
+        Assertions.assertEquals(0, stateData.getYPosition());
     }
 }
