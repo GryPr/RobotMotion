@@ -99,7 +99,7 @@ class MoveServiceTest {
         stateData.setPenDown(false);
         Assertions.assertDoesNotThrow(() -> moveService.move(validDistance), "Exception should not be thrown");
         for (int i = 0; i <= validDistance; i++) {
-            Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is writing to gird");
+            Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is writing to grid");
         }
     }
 }
