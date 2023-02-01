@@ -13,7 +13,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -22,14 +21,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class MoveServiceTest {
     private StateData stateData;
     private MoveService moveService;
 
     private final int initialPosition = 4;
+    private final int validDistance = 3;
 
     @BeforeEach
     void setUp() {
@@ -66,41 +64,41 @@ class MoveServiceTest {
 
     private static Stream<Arguments> provideArgumentsForMove() {
         return Stream.of(
-                Arguments.of(3, Orientation.NORTH, 0, 1),
-                Arguments.of(3, Orientation.SOUTH, 0, -1),
-                Arguments.of(3, Orientation.WEST, -1, 0),
-                Arguments.of(3, Orientation.EAST, 1, 0)
+                Arguments.of(Orientation.NORTH, 0, 1),
+                Arguments.of(Orientation.SOUTH, 0, -1),
+                Arguments.of(Orientation.WEST, -1, 0),
+                Arguments.of(Orientation.EAST, 1, 0)
         );
     }
 
     @ParameterizedTest
     @MethodSource(value = "provideArgumentsForMove")
-    void GIVEN_validDistance_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
+    void GIVEN_validDistance_WHEN_move_THEN_success(final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
         int initialXPosition = stateData.getXPosition(), initialYPosition = stateData.getYPosition();
-        Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        Assertions.assertEquals(initialXPosition + (inputDistance * xMultiplier), stateData.getXPosition(), "Invalid final X position");
-        Assertions.assertEquals(initialYPosition + (inputDistance * yMultiplier), stateData.getYPosition(), "Invalid final Y position");
+        Assertions.assertDoesNotThrow(() -> moveService.move(validDistance), "Exception should not be thrown");
+        Assertions.assertEquals(initialXPosition + (validDistance * xMultiplier), stateData.getXPosition(), "Invalid final X position");
+        Assertions.assertEquals(initialYPosition + (validDistance * yMultiplier), stateData.getYPosition(), "Invalid final Y position");
     }
 
     @ParameterizedTest()
     @MethodSource(value = "provideArgumentsForMove")
-    void GIVEN_penIsDown_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
+    void GIVEN_penIsDown_WHEN_move_THEN_success(final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
         stateData.setPenDown(true);
-        Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        for (int i = 0; i <= inputDistance; i++) {
+        Assertions.assertDoesNotThrow(() -> moveService.move(validDistance), "Exception should not be thrown");
+        for (int i = 0; i <= validDistance; i++) {
             Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is not writing to grid");
         }
     }
 
     @ParameterizedTest()
     @MethodSource(value = "provideArgumentsForMove")
-    void GIVEN_penIsUp_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
+    void GIVEN_penIsUp_WHEN_move_THEN_success(final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
         stateData.setPenDown(false);
-        Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        for (int i = 0; i <= inputDistance; i++) {
+        Assertions.assertDoesNotThrow(() -> moveService.move(validDistance), "Exception should not be thrown");
+        for (int i = 0; i <= validDistance; i++) {
             Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is writing to gird");
         }
     }
