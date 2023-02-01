@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,19 +44,17 @@ class MoveServiceTest {
     }
 
     @Test
-    void GIVEN_invalidMaxDistance_WHEN_move_THEN_outputErrorMessage() {
+    void GIVEN_gridNotInitialized_WHEN_move_THEN_outputErrorMessage() {
+        stateData = new StateData();
+        moveService = new MoveService(stateData);
+        Assertions.assertThrows(NoInitException.class, () -> moveService.move(5), "NoInitException expected to be thrown");
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Orientation.class)
+    void GIVEN_invalidMaxDistance_WHEN_move_THEN_outputErrorMessage(final Orientation orientation) {
         final int inputDistance = 6;
-
-        stateData.setOrientation(Orientation.NORTH);
-        Assertions.assertThrows(MaxDistanceException.class, () -> moveService.move(inputDistance), "MaxDistanceException expected to be thrown");
-
-        stateData.setOrientation(Orientation.SOUTH);
-        Assertions.assertThrows(MaxDistanceException.class, () -> moveService.move(inputDistance), "MaxDistanceException expected to be thrown");
-
-        stateData.setOrientation(Orientation.WEST);
-        Assertions.assertThrows(MaxDistanceException.class, () -> moveService.move(inputDistance), "MaxDistanceException expected to be thrown");
-
-        stateData.setOrientation(Orientation.EAST);
+        stateData.setOrientation(orientation);
         Assertions.assertThrows(MaxDistanceException.class, () -> moveService.move(inputDistance), "MaxDistanceException expected to be thrown");
     }
 
@@ -63,94 +64,44 @@ class MoveServiceTest {
         Assertions.assertThrows(MinDistanceException.class, () -> moveService.move(inputDistance), "MinDistanceException expected to be thrown");
     }
 
-    @ParameterizedTest()
-    @EnumSource(value = Orientation.class)
-    void GIVEN_validDistance_WHEN_move_THEN_success(final Orientation orientation) {
-        final int inputDistance = 3;
+    private static Stream<Arguments> provideArgumentsForMove() {
+        return Stream.of(
+                Arguments.of(3, Orientation.NORTH, 0, 1),
+                Arguments.of(3, Orientation.SOUTH, 0, -1),
+                Arguments.of(3, Orientation.WEST, -1, 0),
+                Arguments.of(3, Orientation.EAST, 1, 0)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "provideArgumentsForMove")
+    void GIVEN_validDistance_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
+        int initialXPosition = stateData.getXPosition(), initialYPosition = stateData.getYPosition();
         Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        switch (orientation) {
-            case NORTH -> {
-                Assertions.assertEquals(initialPosition + inputDistance, stateData.getYPosition(), "Final Y position should be 7");
-            }
-            case SOUTH -> {
-                Assertions.assertEquals(initialPosition - inputDistance, stateData.getYPosition(), "Final Y position should be 1");
-            }
-            case WEST -> {
-                Assertions.assertEquals(initialPosition - inputDistance, stateData.getXPosition(), "Final X position should be 1");
-            }
-            case EAST -> {
-                Assertions.assertEquals(initialPosition + inputDistance, stateData.getXPosition(), "Final X position should be 7");
-            }
-        }
+        Assertions.assertEquals(initialXPosition + (inputDistance * xMultiplier), stateData.getXPosition(), "Invalid final X position");
+        Assertions.assertEquals(initialYPosition + (inputDistance * yMultiplier), stateData.getYPosition(), "Invalid final Y position");
     }
 
     @ParameterizedTest()
-    @EnumSource(value = Orientation.class)
-    void GIVEN_penIsDown_WHEN_move_THEN_success(final Orientation orientation) {
-        final int inputDistance = 3;
+    @MethodSource(value = "provideArgumentsForMove")
+    void GIVEN_penIsDown_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
         stateData.setPenDown(true);
         Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        switch (orientation) {
-            case NORTH -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition).get(initialPosition + i), "Square on grid should have value of 1");
-                }
-            }
-            case SOUTH -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition).get(initialPosition - i), "Square on grid should have value of 1");
-                }
-            }
-            case WEST -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition - i).get(initialPosition), "Square on grid should have value of 1");
-                }
-            }
-            case EAST -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition + i).get(initialPosition), "Square on grid should have value of 1");
-                }
-            }
+        for (int i = 0; i <= inputDistance; i++) {
+            Assertions.assertEquals(1, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is not writing to grid");
         }
     }
 
     @ParameterizedTest()
-    @EnumSource(value = Orientation.class)
-    void GIVEN_penIsUp_WHEN_move_THEN_success(final Orientation orientation) {
-        final int inputDistance = 3;
+    @MethodSource(value = "provideArgumentsForMove")
+    void GIVEN_penIsUp_WHEN_move_THEN_success(final int inputDistance, final Orientation orientation, final int xMultiplier, final int yMultiplier) {
         stateData.setOrientation(orientation);
         stateData.setPenDown(false);
         Assertions.assertDoesNotThrow(() -> moveService.move(inputDistance), "Exception should not be thrown");
-        switch (orientation) {
-            case NORTH -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition).get(initialPosition + i), "Square on grid should have value of 1");
-                }
-            }
-            case SOUTH -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition).get(initialPosition - i), "Square on grid should have value of 1");
-                }
-            }
-            case WEST -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition - i).get(initialPosition), "Square on grid should have value of 1");
-                }
-            }
-            case EAST -> {
-                for (int i = 0; i < inputDistance; i++) {
-                    Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition + i).get(initialPosition), "Square on grid should have value of 1");
-                }
-            }
+        for (int i = 0; i <= inputDistance; i++) {
+            Assertions.assertEquals(0, stateData.getMatrix().get(initialPosition + (i * xMultiplier)).get(initialPosition + (i * yMultiplier)), "Robot is writing to gird");
         }
-    }
-
-    @Test
-    void GIVEN_gridNotInitialized_WHEN_move_THEN_outputErrorMessage() {
-        stateData = new StateData();
-        moveService = new MoveService(stateData);
-        Assertions.assertThrows(NoInitException.class, () -> moveService.move(5), "NoInitException expected to be thrown");
     }
 }
