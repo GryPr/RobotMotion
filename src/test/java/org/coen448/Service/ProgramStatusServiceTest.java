@@ -12,8 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ExtendWith(MockitoExtension.class)
 class ProgramStatusServiceTest {
@@ -51,8 +53,37 @@ class ProgramStatusServiceTest {
                 }
             }}, list);
         }
+        Assertions.assertEquals(0, stateData.getXPosition(), "Initial X position should be 0");
+        Assertions.assertEquals(0, stateData.getYPosition(), "Initial Y position should be 0");
+    }
 
-        Assertions.assertEquals(0, stateData.getXPosition());
-        Assertions.assertEquals(0, stateData.getYPosition());
+    @Test
+    void GIVEN_madeOperationsOnData_WHEN_initialize_THEN_success() {
+        final int inputLength = 4;
+
+        stateData.setMatrix(IntStream.range(0, inputLength)
+                .mapToObj(i -> new ArrayList<Integer>(Collections.nCopies(inputLength, 0)))
+                .collect(Collectors.toList()));
+        stateData.setPenDown(true);
+        stateData.setOrientation(Orientation.SOUTH);
+        stateData.setXPosition(2);
+        stateData.setYPosition(3);
+
+        Assertions.assertDoesNotThrow(() -> {
+            programStatusService.initialize(inputLength);
+        }, "InitSizeException should not be thrown");
+
+        Assertions.assertFalse(stateData.isPenDown(), "Pen should be up");
+        Assertions.assertEquals(Orientation.NORTH, stateData.getOrientation(), "Robot should be facing North");
+
+        for (List<Integer> list : stateData.getMatrix()) {
+            Assertions.assertIterableEquals(new ArrayList<Integer>() {{
+                for (int i = 0; i < inputLength; i++) {
+                    add(0);
+                }
+            }}, list);
+        }
+        Assertions.assertEquals(0, stateData.getXPosition(), "Initial X position should be 0");
+        Assertions.assertEquals(0, stateData.getYPosition(), "Initial Y position should be 0");
     }
 }

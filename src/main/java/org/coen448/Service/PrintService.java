@@ -15,11 +15,8 @@ public class PrintService {
     private final StateData stateData;
 
     public void printMatrix() throws NoInitException {
+        stateData.isInitialized();
         final List<List<Integer>> matrix = stateData.getMatrix();
-
-        if (matrix == null) {
-            throw new NoInitException();
-        }
 
         // Build the matrix string
         String matrixString = "";
@@ -43,10 +40,7 @@ public class PrintService {
     }
 
     public void printPosition() throws NoInitException {
-
-        if (stateData.getMatrix() == null) {
-            throw new NoInitException();
-        }
+        stateData.isInitialized();
 
         final String positionString = String.format("""
                 Position [x,y]: [%d, %d]

@@ -18,11 +18,10 @@ public class MoveService {
     private final StateData stateData;
 
     public void move(int distance) throws MaxDistanceException, MinDistanceException, NoInitException {
-        final List<List<Integer>> matrix = stateData.getMatrix();
-        
-        if(matrix == null) throw new NoInitException();
+        stateData.isInitialized();
         if (distance < 1) throw new MinDistanceException();
 
+        final List<List<Integer>> matrix = stateData.getMatrix();
         final int matrixLength = matrix.size();
         final int xPosition = stateData.getXPosition();
         final int yPosition = stateData.getYPosition();
@@ -36,7 +35,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = yPosition;
                     while (tempPosition <= yPosition + distance) {
-                        matrix.get(xPosition).set(tempPosition, matrix.get(xPosition).get(tempPosition++) + 1);
+                        matrix.get(tempPosition++).set(xPosition, 1);
                     }
                 }
                 stateData.setYPosition(yPosition + distance);
@@ -46,7 +45,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = yPosition;
                     while (tempPosition >= yPosition - distance) {
-                        matrix.get(xPosition).set(tempPosition, matrix.get(xPosition).get(tempPosition--) + 1);
+                        matrix.get(tempPosition--).set(xPosition, 1);
                     }
                 }
                 stateData.setYPosition(yPosition - distance);
@@ -57,7 +56,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = xPosition;
                     while (tempPosition <= xPosition + distance) {
-                        matrix.get(tempPosition).set(yPosition, matrix.get(tempPosition++).get(yPosition) + 1);
+                        matrix.get(yPosition).set(tempPosition++, 1);
                     }
                 }
                 stateData.setXPosition(xPosition + distance);
@@ -68,7 +67,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = xPosition;
                     while (tempPosition >= xPosition - distance) {
-                        matrix.get(tempPosition).set(yPosition, matrix.get(tempPosition--).get(yPosition) + 1);
+                        matrix.get(yPosition).set(tempPosition--, 1);
                     }
                 }
                 stateData.setXPosition(xPosition - distance);

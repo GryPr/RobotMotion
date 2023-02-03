@@ -17,8 +17,7 @@ public class TurnService {
     private final StateData stateData;
 
     public void turnLeft() throws NoInitException {
-        final List<List<Integer>> matrix = stateData.getMatrix();
-        if(matrix == null) throw new NoInitException();
+        stateData.isInitialized();
         switch (stateData.getOrientation()){
             case NORTH -> {
                 stateData.setOrientation(Orientation.WEST);
@@ -38,8 +37,7 @@ public class TurnService {
 
     }
     public void turnRight() throws NoInitException {
-        final List<List<Integer>> matrix = stateData.getMatrix();
-        if(matrix == null) throw new NoInitException();
+        stateData.isInitialized();
         switch (stateData.getOrientation()){
             case NORTH -> {
                 stateData.setOrientation(Orientation.EAST);
