@@ -18,11 +18,10 @@ public class MoveService {
     private final StateData stateData;
 
     public void move(int distance) throws MaxDistanceException, MinDistanceException, NoInitException {
-        final List<List<Integer>> matrix = stateData.getMatrix();
-        
-        if(matrix == null) throw new NoInitException();
+        stateData.isInitialized();
         if (distance < 1) throw new MinDistanceException();
 
+        final List<List<Integer>> matrix = stateData.getMatrix();
         final int matrixLength = matrix.size();
         final int xPosition = stateData.getXPosition();
         final int yPosition = stateData.getYPosition();

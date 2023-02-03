@@ -20,6 +20,7 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,14 +66,14 @@ class PrintServiceTest {
         Assertions.assertDoesNotThrow(() -> {
             printService.printMatrix();
         });
-        String output = outputContent.toString();
+        String output = outputContent.toString().replaceAll("\\r", "");
         Assertions.assertEquals(expectedMatrixString, output);
     }
 
     @Test
     void GIVEN_uninitializedStateData_WHEN_printMatrix_THEN_throwNoInitException() {
-        when(stateData.getMatrix()).thenReturn(null);
         Assertions.assertThrows(NoInitException.class, () -> {
+            doThrow(new NoInitException()).when(stateData).isInitialized();
             printService.printMatrix();
         });
     }
@@ -111,7 +112,6 @@ class PrintServiceTest {
             final Orientation orientation,
             final String positionString) {
 
-        when(stateData.getMatrix()).thenReturn(matrix);
         when(stateData.getXPosition()).thenReturn(xPosition);
         when(stateData.getYPosition()).thenReturn(yPosition);
         when(stateData.isPenDown()).thenReturn(penDown);
@@ -121,16 +121,15 @@ class PrintServiceTest {
             printService.printPosition();
         });
 
-        String output = outputContent.toString();
+        String output = outputContent.toString().replaceAll("\\r", "");
         String expected = positionString + "\n";
         Assertions.assertEquals(expected, output);
     }
 
     @Test
     void GIVEN_uninitializedStateData_WHEN_printPosition_THEN_throwNoInitException() {
-        when(stateData.getMatrix()).thenReturn(null);
-
         Assertions.assertThrows(NoInitException.class, () -> {
+            doThrow(new NoInitException()).when(stateData).isInitialized();
             printService.printPosition();
         });
     }
