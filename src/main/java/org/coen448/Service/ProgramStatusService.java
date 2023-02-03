@@ -25,5 +25,7 @@ public class ProgramStatusService {
                 .collect(Collectors.toList()));
         stateData.setPenDown(false);
         stateData.setOrientation(Orientation.NORTH);
+        stateData.setXPosition(0);
+        stateData.setYPosition(0);
     }
 }
