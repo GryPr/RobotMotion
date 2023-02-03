@@ -9,6 +9,7 @@ public enum Command {
     PRINT_ARRAY,
     PRINT_POSITION,
     QUIT,
-    INITIALIZE
+    INITIALIZE,
+    HELP
 
 }
