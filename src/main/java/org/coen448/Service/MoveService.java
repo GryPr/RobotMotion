@@ -35,7 +35,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = yPosition;
                     while (tempPosition <= yPosition + distance) {
-                        matrix.get(xPosition).set(tempPosition, matrix.get(xPosition).get(tempPosition++) + 1);
+                        matrix.get(tempPosition++).set(xPosition, 1);
                     }
                 }
                 stateData.setYPosition(yPosition + distance);
@@ -45,7 +45,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = yPosition;
                     while (tempPosition >= yPosition - distance) {
-                        matrix.get(xPosition).set(tempPosition, matrix.get(xPosition).get(tempPosition--) + 1);
+                        matrix.get(tempPosition--).set(xPosition, 1);
                     }
                 }
                 stateData.setYPosition(yPosition - distance);
@@ -56,7 +56,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = xPosition;
                     while (tempPosition <= xPosition + distance) {
-                        matrix.get(tempPosition).set(yPosition, matrix.get(tempPosition++).get(yPosition) + 1);
+                        matrix.get(yPosition).set(tempPosition++, 1);
                     }
                 }
                 stateData.setXPosition(xPosition + distance);
@@ -67,7 +67,7 @@ public class MoveService {
                 if (isPenDown) {
                     tempPosition = xPosition;
                     while (tempPosition >= xPosition - distance) {
-                        matrix.get(tempPosition).set(yPosition, matrix.get(tempPosition--).get(yPosition) + 1);
+                        matrix.get(yPosition).set(tempPosition--, 1);
                     }
                 }
                 stateData.setXPosition(xPosition - distance);

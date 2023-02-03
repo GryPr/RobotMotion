@@ -48,15 +48,15 @@ class PrintServiceTest {
     }
 
     List<List<Integer>> matrix = List.of(
-            List.of(1, 2, 3),
-            List.of(4, 5, 6),
-            List.of(7, 8, 9)
+            List.of(1, 1, 1),
+            List.of(1, 0, 0),
+            List.of(1, 1, 1)
     );
 
     String expectedMatrixString = """
-            2 7 8 9\s
-            1 4 5 6\s
-            0 1 2 3\s
+            2 1 1 1\s
+            1 1 0 0\s
+            0 1 1 1\s
               0 1 2\s
               """;
 

@@ -68,9 +68,7 @@ public class DisplayController {
                 case MOVE_FORWARD -> moveService.move(extractIntArgument(input));
                 case PRINT_ARRAY -> printService.printMatrix();
                 case PRINT_POSITION -> printService.printPosition();
-                case QUIT -> {
-                    running = false;
-                }
+                case QUIT -> running = false;
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
                 default -> throw new IllegalStateException("Unexpected value: " + command);
             }
@@ -94,9 +92,7 @@ public class DisplayController {
         // Validates the input based on whether it's a single input or double input command
         if (DisplayConfiguration.singleInputCommandSet.contains(command)){
             // Check that the input has a length of 1
-            if (input.length() > 1) {
-                return false;
-            }
+            return input.length() <= 1;
         } else if (DisplayConfiguration.doubleInputCommandSet.contains(command)) {
             // Check that the input has a length larger than 2
             if (input.length() < 2) {
