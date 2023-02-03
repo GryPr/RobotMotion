@@ -70,6 +70,7 @@ public class DisplayController {
                 case PRINT_POSITION -> printService.printPosition();
                 case QUIT -> running = false;
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
+                case HELP -> System.out.println(DisplayConfiguration.commandMenu);
                 default -> throw new IllegalStateException("Unexpected value: " + command);
             }
         } catch (Exception e) {

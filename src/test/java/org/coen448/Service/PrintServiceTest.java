@@ -54,10 +54,11 @@ class PrintServiceTest {
     );
 
     String expectedMatrixString = """
-            2 1 1 1\s
-            1 1 0 0\s
-            0 1 1 1\s
-              0 1 2\s
+            2 | 1 1 1\s
+            1 | 1 0 0\s
+            0 | 1 1 1\s
+                - - -\s
+                0 1 2\s
               """;
 
     @Test
