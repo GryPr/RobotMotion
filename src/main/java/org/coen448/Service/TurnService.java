@@ -16,7 +16,7 @@ public class TurnService {
     @Inject
     private final StateData stateData;
 
-    public void  turnLeft()throws NoInitException {
+    public void  turnLeft() throws NoInitException {
         final List<List<Integer>> matrix = stateData.getMatrix();
         if(matrix == null) throw new NoInitException();
         switch (stateData.getOrientation()){
