@@ -22,15 +22,21 @@ public class PrintService {
         String matrixString = "";
         for (int i = matrix.size() - 1; i >= 0; i--) {
             final List<Integer> row = matrix.get(i);
-            String rowString = String.format("%d ", i);
+            String rowString = String.format("%d | ", i);
             for (final Integer integer : row) {
                 rowString = String.format("%s%d ", rowString, integer);
             }
             matrixString = String.format("%s%s\n", matrixString, rowString);
         }
 
-        // Build the horizontal indexes on the last row
-        String horizontalIndexes = "  ";
+        // Build the horizontal indexes on the last rows
+        String horizontalIndexes = "    ";
+        for (int i = 0; i < matrix.get(matrix.size()-1).size(); i++) {
+            horizontalIndexes = String.format("%s- ", horizontalIndexes);
+        }
+        matrixString = String.format("%s%s\n", matrixString, horizontalIndexes);
+
+        horizontalIndexes = "    ";
         for (int i = 0; i < matrix.get(matrix.size()-1).size(); i++) {
             horizontalIndexes = String.format("%s%d ", horizontalIndexes, i);
         }
