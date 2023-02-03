@@ -7,6 +7,7 @@ import org.coen448.Configuration.DisplayConfiguration;
 import org.coen448.Exception.BaseException;
 import org.coen448.Exception.Error;
 import org.coen448.Service.MoveService;
+import org.coen448.Service.PenService;
 import org.coen448.Service.ProgramStatusService;
 
 import java.util.NoSuchElementException;
@@ -18,7 +19,9 @@ public class DisplayController {
     @Inject
     private final ProgramStatusService programStatusService;
     @Inject
-    final MoveService moveService;
+    private final MoveService moveService;
+    @Inject
+    private final PenService penService;
 
     public boolean running;
     public void loopMenu() {
@@ -55,10 +58,8 @@ public class DisplayController {
     private void handleCommand(final String input, final Command command) {
         try {
             switch (command) {
-                case PEN_UP -> {
-                }
-                case PEN_DOWN -> {
-                }
+                case PEN_UP -> penService.penUp();
+                case PEN_DOWN -> penService.penDown();
                 case TURN_RIGHT -> {
                 }
                 case TURN_LEFT -> {
