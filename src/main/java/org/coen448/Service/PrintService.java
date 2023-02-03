@@ -15,10 +15,8 @@ public class PrintService {
     private final StateData stateData;
 
     public void printMatrix() throws NoInitException {
-        System.out.println(buildMatrixString(stateData.getMatrix()));
-    }
+        final List<List<Integer>> matrix = stateData.getMatrix();
 
-    public String buildMatrixString(List<List<Integer>> matrix) throws NoInitException {
         if (matrix == null) {
             throw new NoInitException();
         }
@@ -41,16 +39,23 @@ public class PrintService {
         }
         matrixString = String.format("%s%s", matrixString, horizontalIndexes);
 
-        return matrixString;
+        System.out.println(matrixString);
     }
 
-    public void printPosition() {
+    public void printPosition() throws NoInitException {
 
+        if (stateData.getMatrix() == null) {
+            throw new NoInitException();
+        }
+
+        final String positionString = String.format("""
+                Position [x,y]: [%d, %d]
+                Pen up/down: %s
+                Orientation: %s""",
+                stateData.getXPosition(),
+                stateData.getYPosition(),
+                stateData.isPenDown() ? "DOWN" : "UP",
+                stateData.getOrientation());
+        System.out.println(positionString);
     }
-
-    public String buildPositionString(){
-        return null;
-    }
-
-
 }
