@@ -9,6 +9,7 @@ import org.coen448.Exception.Error;
 import org.coen448.Service.MoveService;
 import org.coen448.Service.PenService;
 import org.coen448.Service.ProgramStatusService;
+import org.coen448.Service.TurnService;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -22,7 +23,9 @@ public class DisplayController {
     private final MoveService moveService;
     @Inject
     private final PenService penService;
-
+    @Inject
+    private final TurnService turnService;
+    
     public boolean running;
     public void loopMenu() {
         System.out.println(DisplayConfiguration.commandMenu);
@@ -58,21 +61,19 @@ public class DisplayController {
     private void handleCommand(final String input, final Command command) {
         try {
             switch (command) {
+
                 case PEN_UP -> penService.penUp();
                 case PEN_DOWN -> penService.penDown();
-                case TURN_RIGHT -> {
-                }
-                case TURN_LEFT -> {
-                }
+                case TURN_RIGHT -> turnService.turnRight();
+                case TURN_LEFT -> turnService.turnLeft();
                 case MOVE_FORWARD -> moveService.move(extractIntArgument(input));
-                case PRINT_ARRAY -> {
-                }
-                case PRINT_POSITION -> {
-                }
+                case PRINT_ARRAY -> {}
+                case PRINT_POSITION -> {}
                 case QUIT -> {
                     running = false;
                 }
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
+                default -> throw new IllegalStateException("Unexpected value: " + command);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
