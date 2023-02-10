@@ -7,45 +7,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-
-@ExtendWith(MockitoExtension.class)
 class PrintServiceTest {
-    @Mock
     StateData stateData;
-    @InjectMocks
     PrintService printService;
 
     private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
-
-    @BeforeEach
-    public void setUp() {
-        System.setOut(new PrintStream(outputContent));
-        System.setErr(new PrintStream(errorContent));
-    }
-
-    @AfterEach
-    public void tearDown() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
-    }
 
     List<List<Integer>> matrix = List.of(
             List.of(1, 1, 1),
@@ -61,22 +39,33 @@ class PrintServiceTest {
                 0 1 2\s
               """;
 
+    @BeforeEach
+    public void setUp() {
+        stateData = new StateData();
+        printService = new PrintService(stateData);
+        stateData.setMatrix(matrix);
+        System.setOut(new PrintStream(outputContent));
+        System.setErr(new PrintStream(errorContent));
+    }
+
+    @AfterEach
+    public void tearDown() {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+    }
+
+
     @Test
     void GIVEN_initializedStateData_WHEN_buildMatrixString_THEN_returnFormattedMatrixString() {
-        when(stateData.getMatrix()).thenReturn(matrix);
-        Assertions.assertDoesNotThrow(() -> {
-            printService.printMatrix();
-        });
+        Assertions.assertDoesNotThrow(() -> printService.printMatrix());
         String output = outputContent.toString().replaceAll("\\r", "");
         Assertions.assertEquals(expectedMatrixString, output);
     }
 
     @Test
     void GIVEN_uninitializedStateData_WHEN_printMatrix_THEN_throwNoInitException() {
-        Assertions.assertThrows(NoInitException.class, () -> {
-            doThrow(new NoInitException()).when(stateData).isInitialized();
-            printService.printMatrix();
-        });
+        stateData.setMatrix(null);
+        Assertions.assertThrows(NoInitException.class, () -> printService.printMatrix());
     }
 
     private static Stream<Arguments> positionDataset() {
@@ -113,14 +102,12 @@ class PrintServiceTest {
             final Orientation orientation,
             final String positionString) {
 
-        when(stateData.getXPosition()).thenReturn(xPosition);
-        when(stateData.getYPosition()).thenReturn(yPosition);
-        when(stateData.isPenDown()).thenReturn(penDown);
-        when(stateData.getOrientation()).thenReturn(orientation);
+        stateData.setXPosition(xPosition);
+        stateData.setYPosition(yPosition);
+        stateData.setPenDown(penDown);
+        stateData.setOrientation(orientation);
 
-        Assertions.assertDoesNotThrow(() -> {
-            printService.printPosition();
-        });
+        Assertions.assertDoesNotThrow(() -> printService.printPosition());
 
         String output = outputContent.toString().replaceAll("\\r", "");
         String expected = positionString + "\n";
@@ -129,9 +116,8 @@ class PrintServiceTest {
 
     @Test
     void GIVEN_uninitializedStateData_WHEN_printPosition_THEN_throwNoInitException() {
-        Assertions.assertThrows(NoInitException.class, () -> {
-            doThrow(new NoInitException()).when(stateData).isInitialized();
-            printService.printPosition();
-        });
+        stateData.setMatrix(null);
+
+        Assertions.assertThrows(NoInitException.class, () -> printService.printPosition());
     }
 }
