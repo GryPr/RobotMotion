@@ -71,7 +71,6 @@ public class DisplayController {
                 case QUIT -> running = false;
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
                 case HELP -> System.out.println(DisplayConfiguration.commandMenu);
-                default -> throw new IllegalStateException("Unexpected value: " + command);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -109,10 +108,7 @@ public class DisplayController {
             } catch (NumberFormatException nfe) {
                 return false;
             }
-        } else {
-            return false;
         }
-
         return true;
     }
 
