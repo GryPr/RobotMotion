@@ -84,7 +84,7 @@ public class DisplayControllerTest {
 
         displayController.menu();
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(BaseException.errorMessageMap.get(Error.COMMAND_INPUT_ERROR), errorMessage);
@@ -119,7 +119,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -135,7 +135,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -150,7 +150,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -166,7 +166,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -181,7 +181,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -197,7 +197,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -213,7 +213,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -229,7 +229,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -245,7 +245,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
@@ -261,7 +261,7 @@ public class DisplayControllerTest {
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
 
-        String output = outputContent.toString().replaceAll("\\r", "");
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
 
         Assertions.assertEquals(expected, errorMessage);
