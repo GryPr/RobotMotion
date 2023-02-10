@@ -157,7 +157,7 @@ public class DisplayControllerTest {
     }
 
     @Test
-    public void GIVEN_moveWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException {
+    public void GIVEN_turnRightWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException {
         final String input = "r";
         final String expected = BaseException.errorMessageMap.get(Error.NO_INIT_ERROR);
         doThrow(new NoInitException()).when(turnService).turnRight();
@@ -171,9 +171,8 @@ public class DisplayControllerTest {
 
         Assertions.assertEquals(expected, errorMessage);
     }
-
     @Test
-    public void GIVEN_turnRightWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
+    public void GIVEN_moveWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
         final String input = "m 5";
         final String expected = BaseException.errorMessageMap.get(Error.NO_INIT_ERROR);
         doThrow(new NoInitException()).when(moveService).move(anyInt());
@@ -189,7 +188,7 @@ public class DisplayControllerTest {
     }
 
     @Test
-    public void GIVEN_turnRightWithMinDistanceException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
+    public void GIVEN_moveWithMinDistanceException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
         final String input = "m 5";
         final String expected = BaseException.errorMessageMap.get(Error.MIN_DISTANCE_ERROR);
         doThrow(new MinDistanceException()).when(moveService).move(anyInt());
@@ -205,7 +204,7 @@ public class DisplayControllerTest {
     }
 
     @Test
-    public void GIVEN_turnRightWithMaxDistanceException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
+    public void GIVEN_moveWithMaxDistanceException_WHEN_menu_THEN_printException() throws NoInitException, MinDistanceException, MaxDistanceException {
         final String input = "m 5";
         final String expected = BaseException.errorMessageMap.get(Error.MAX_DISTANCE_ERROR);
         doThrow(new MaxDistanceException()).when(moveService).move(anyInt());
