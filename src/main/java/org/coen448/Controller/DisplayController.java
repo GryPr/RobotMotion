@@ -24,6 +24,8 @@ public class DisplayController {
     private final TurnService turnService;
     @Inject
     private final PrintService printService;
+    @Inject
+    private final HistoryService historyService;
     
     public boolean running;
     public void loopMenu() {
@@ -55,9 +57,10 @@ public class DisplayController {
         }
 
         handleCommand(input, command);
+        historyService.add(input, command);
     }
 
-    private void handleCommand(final String input, final Command command) {
+    public void handleCommand(final String input, final Command command) {
         try {
             switch (command) {
 
@@ -71,6 +74,7 @@ public class DisplayController {
                 case QUIT -> running = false;
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
                 case HELP -> System.out.println(DisplayConfiguration.commandMenu);
+                case REPLAY -> historyService.replay();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

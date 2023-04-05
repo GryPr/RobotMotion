@@ -19,6 +19,7 @@ public class DisplayConfiguration {
         put('q', Command.QUIT);
         put('i', Command.INITIALIZE);
         put('h', Command.HELP);
+        put('p', Command.REPLAY);
     }};
 
     public static Set<Command> singleInputCommandSet = new HashSet<>()
@@ -31,7 +32,8 @@ public class DisplayConfiguration {
                 Command.PRINT_ARRAY,
                 Command.PRINT_POSITION,
                 Command.QUIT,
-                Command.HELP
+                Command.HELP,
+                Command.REPLAY
         ));
     }};
 
@@ -54,6 +56,7 @@ public class DisplayConfiguration {
                     [C|c] Print current position of the pen and whether it is up or down and its facing direction
                     [Q|q] Stop the program
                     [I n|i n] Initialize the system: The values of the array floor are zeros and the robot is back to [0, 0], pen up and facing north. n size of the array, an integer greater than zero
+                    [R|r] Replay all the previously entered commands
                     
                     [H|h] Print that help message again
                     """;

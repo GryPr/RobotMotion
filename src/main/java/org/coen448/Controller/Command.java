@@ -10,6 +10,7 @@ public enum Command {
     PRINT_POSITION,
     QUIT,
     INITIALIZE,
-    HELP
+    HELP,
+    REPLAY
 
 }
