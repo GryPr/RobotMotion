@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Singleton
 public class HistoryData {
 
-    ArrayList<String> inputs;
-    ArrayList<Command> commands;
+    ArrayList<String> inputs = new ArrayList<String>();
+    ArrayList<Command> commands = new ArrayList<Command>();
 
 }

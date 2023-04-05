@@ -5,5 +5,6 @@ public enum Error {
     INIT_SIZE_ERROR,
     MAX_DISTANCE_ERROR,
     MIN_DISTANCE_ERROR,
-    NO_INIT_ERROR
+    NO_INIT_ERROR,
+    NO_HISTORY_ERROR
 }

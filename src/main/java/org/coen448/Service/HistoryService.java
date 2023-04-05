@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.coen448.Controller.Command;
 import org.coen448.Controller.DisplayController;
 import org.coen448.Data.HistoryData;
+import org.coen448.Exception.NoHistoryException;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class HistoryService {
     @Inject
     private final HistoryData historyData;
     @Inject
-    private final DisplayController displayController;
+    private final CommandService commandService;
 
     public void add(String input, Command command) {
         ArrayList<String> inputs = historyData.getInputs();
@@ -27,12 +28,14 @@ public class HistoryService {
         historyData.setCommands(commands);
     }
 
-    public void replay() {
+    public void replay() throws NoHistoryException {
         ArrayList<String> inputs = historyData.getInputs();
+        if(inputs.isEmpty()) throw new NoHistoryException();
+
         ArrayList<Command> commands = historyData.getCommands();
         for(int i = 0; i < inputs.size(); i++) {
             System.out.println(inputs.get(i));
-            displayController.handleCommand(inputs.get(i), commands.get(i));
+            commandService.handleCommand(inputs.get(i), commands.get(i));
         }
     }
 }

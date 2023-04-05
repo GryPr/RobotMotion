@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.coen448.Configuration.DisplayConfiguration;
 import org.coen448.Exception.BaseException;
 import org.coen448.Exception.Error;
+import org.coen448.Exception.NoHistoryException;
 import org.coen448.Service.*;
 
 import java.util.NoSuchElementException;
@@ -15,23 +16,15 @@ import java.util.Scanner;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class DisplayController {
     @Inject
+    private final CommandService commandService;
+    @Inject
     private final ProgramStatusService programStatusService;
     @Inject
-    private final MoveService moveService;
-    @Inject
-    private final PenService penService;
-    @Inject
-    private final TurnService turnService;
-    @Inject
-    private final PrintService printService;
-    @Inject
     private final HistoryService historyService;
-    
-    public boolean running;
+
     public void loopMenu() {
         System.out.println(DisplayConfiguration.commandMenu);
-        running = true;
-        while (running) {
+        while (programStatusService.isRunning()) {
             menu();
         }
     }
@@ -56,34 +49,17 @@ public class DisplayController {
             return;
         }
 
-        handleCommand(input, command);
-        historyService.add(input, command);
-    }
-
-    public void handleCommand(final String input, final Command command) {
-        try {
-            switch (command) {
-
-                case PEN_UP -> penService.penUp();
-                case PEN_DOWN -> penService.penDown();
-                case TURN_RIGHT -> turnService.turnRight();
-                case TURN_LEFT -> turnService.turnLeft();
-                case MOVE_FORWARD -> moveService.move(extractIntArgument(input));
-                case PRINT_ARRAY -> printService.printMatrix();
-                case PRINT_POSITION -> printService.printPosition();
-                case QUIT -> running = false;
-                case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
-                case HELP -> System.out.println(DisplayConfiguration.commandMenu);
-                case REPLAY -> historyService.replay();
+        if(command == Command.REPLAY) {
+            try {
+                historyService.replay();
+            } catch (NoHistoryException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
-    }
-
-    private int extractIntArgument(final String input) {
-        final String[] splitInput = input.split(" ");
-        return Integer.parseInt(splitInput[splitInput.length - 1]);
+        else {
+            commandService.handleCommand(input, command);
+            historyService.add(input, command);
+        }
     }
 
     private boolean validateInput(final String input, final Command command) {
