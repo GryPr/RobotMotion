@@ -24,7 +24,7 @@ public class PrintService {
             final List<Integer> row = matrix.get(i);
             String rowString = String.format("%d | ", i);
             for (final Integer integer : row) {
-                rowString = String.format("%s%d ", rowString, integer);
+                rowString = String.format("%s%c ", rowString, integer == 1 ? '*' : ' ');
             }
             matrixString = String.format("%s%s\n", matrixString, rowString);
         }
