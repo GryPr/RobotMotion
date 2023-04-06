@@ -1,6 +1,7 @@
 package org.coen448.Controller;
 
 import org.coen448.Configuration.DisplayConfiguration;
+import org.coen448.Data.HistoryData;
 import org.coen448.Exception.Error;
 import org.coen448.Exception.*;
 import org.coen448.Service.*;
@@ -11,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
@@ -22,24 +21,19 @@ import java.io.PrintStream;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class DisplayControllerTest {
+    ProgramStatusService programStatusService = mock(ProgramStatusService.class);
+    MoveService moveService = mock(MoveService.class);
+    PenService penService = mock(PenService.class);
+    TurnService turnService = mock(TurnService.class);
+    PrintService printService = mock(PrintService.class);
+    HistoryData historyData = new HistoryData();
+    CommandService commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
 
-    @Mock
-    ProgramStatusService programStatusService;
-    @Mock
-    MoveService moveService;
-    @Mock
-    PenService penService;
-    @Mock
-    TurnService turnService;
-    @Mock
-    PrintService printService;
-    @Mock
-    CommandService commandService;
-    @InjectMocks
-    DisplayController displayController;
+    DisplayController displayController = new DisplayController(commandService, programStatusService);
 
     private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
