@@ -94,11 +94,12 @@ public class DisplayControllerTest {
             "r", // turn right
             "l", // turn left
             "m 5", // move
-            "p", // print array
+            "a", // print array
             "c", // print current position
             "q", // stop program
             "h", //help
-            "i 5" // initialize
+            "i 5", // initialize
+            "p"
     })
     public void GIVEN_validCommand_WHEN_menu_THEN_success(final String input) {
         InputStream in = new ByteArrayInputStream(input.getBytes());
@@ -218,7 +219,7 @@ public class DisplayControllerTest {
 
     @Test
     public void GIVEN_printMatrixWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException {
-        final String input = "p";
+        final String input = "a";
         final String expected = BaseException.errorMessageMap.get(Error.NO_INIT_ERROR);
         doThrow(new NoInitException()).when(printService).printMatrix();
 
@@ -257,6 +258,24 @@ public class DisplayControllerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         Assertions.assertDoesNotThrow(() -> displayController.menu());
+
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
+        String errorMessage = output.split(System.getProperty("line.separator"))[0];
+
+        Assertions.assertEquals(expected, errorMessage);
+    }
+
+    @Test
+    public void GIVEN_replayWithNoHistoryException_WHEN_menu_THEN_printException() {
+        historyData = new HistoryData();
+        commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
+
+        final String input = "p";
+        final String expected = BaseException.errorMessageMap.get(Error.NO_HISTORY_ERROR);
+
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        Assertions.assertThrows(NoHistoryException.class, () -> displayController.menu());
 
         String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];

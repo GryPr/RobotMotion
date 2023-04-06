@@ -47,7 +47,7 @@ public class DisplayController {
             return;
         }
 
-        commandService.handleCommand(input, command, true);
+        commandService.handleCommand(input, command, command != Command.REPLAY);
     }
 
     private boolean validateInput(final String input, final Command command) {
