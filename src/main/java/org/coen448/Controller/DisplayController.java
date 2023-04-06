@@ -19,8 +19,6 @@ public class DisplayController {
     private final CommandService commandService;
     @Inject
     private final ProgramStatusService programStatusService;
-    @Inject
-    private final HistoryService historyService;
 
     public void loopMenu() {
         System.out.println(DisplayConfiguration.commandMenu);
@@ -49,17 +47,7 @@ public class DisplayController {
             return;
         }
 
-        if(command == Command.REPLAY) {
-            try {
-                historyService.replay();
-            } catch (NoHistoryException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        else {
-            commandService.handleCommand(input, command);
-            historyService.add(input, command);
-        }
+        commandService.handleCommand(input, command, true);
     }
 
     private boolean validateInput(final String input, final Command command) {

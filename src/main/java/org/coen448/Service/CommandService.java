@@ -5,6 +5,10 @@ import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import org.coen448.Configuration.DisplayConfiguration;
 import org.coen448.Controller.Command;
+import org.coen448.Data.HistoryData;
+import org.coen448.Exception.NoHistoryException;
+
+import java.util.ArrayList;
 
 @Singleton
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
@@ -19,8 +23,10 @@ public class CommandService {
     private final TurnService turnService;
     @Inject
     private final PrintService printService;
+    @Inject
+    private final HistoryData historyData;
 
-    public void handleCommand(final String input, final Command command) {
+    public void handleCommand(final String input, final Command command, boolean addToHistory) {
         try {
             switch (command) {
 
@@ -34,14 +40,38 @@ public class CommandService {
                 case QUIT -> programStatusService.setRunning(false);
                 case INITIALIZE -> programStatusService.initialize(extractIntArgument(input));
                 case HELP -> System.out.println(DisplayConfiguration.commandMenu);
+                case REPLAY -> replay();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        if(command != Command.REPLAY && addToHistory) addToHistory(input, command);
     }
 
     private int extractIntArgument(final String input) {
         final String[] splitInput = input.split(" ");
         return Integer.parseInt(splitInput[splitInput.length - 1]);
+    }
+
+    private void addToHistory(String input, Command command) {
+        ArrayList<String> inputs = historyData.getInputs();
+        inputs.add(input);
+        historyData.setInputs(inputs);
+
+        ArrayList<Command> commands  = historyData.getCommands();
+        commands.add(command);
+        historyData.setCommands(commands);
+    }
+
+    private void replay() throws NoHistoryException {
+        ArrayList<String> inputs = historyData.getInputs();
+        if(inputs.isEmpty()) throw new NoHistoryException();
+
+        ArrayList<Command> commands = historyData.getCommands();
+        for(int i = 0; i < inputs.size(); i++) {
+            System.out.println(inputs.get(i));
+            handleCommand(inputs.get(i), commands.get(i), false);
+        }
     }
 }

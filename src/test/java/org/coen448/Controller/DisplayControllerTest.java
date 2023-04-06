@@ -36,6 +36,8 @@ public class DisplayControllerTest {
     TurnService turnService;
     @Mock
     PrintService printService;
+    @Mock
+    CommandService commandService;
     @InjectMocks
     DisplayController displayController;
 

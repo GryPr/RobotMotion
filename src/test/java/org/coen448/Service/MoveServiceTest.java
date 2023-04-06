@@ -33,6 +33,7 @@ class MoveServiceTest {
     void setUp() {
         // Set pen on center of 9x9 matrix
         stateData = new StateData();
+
         moveService = new MoveService(stateData);
         stateData.setMatrix(IntStream.range(0, 9)
                 .mapToObj(i -> new ArrayList<Integer>(Collections.nCopies(9, 0)))
