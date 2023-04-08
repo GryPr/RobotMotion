@@ -42,6 +42,7 @@ public class DisplayControllerTest {
 
     @BeforeEach
     public void setUpStreams() {
+        this.historyData = new HistoryData();
         System.setOut(new PrintStream(outputContent));
         System.setErr(new PrintStream(errorContent));
     }
@@ -275,7 +276,7 @@ public class DisplayControllerTest {
 
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        Assertions.assertThrows(NoHistoryException.class, () -> displayController.menu());
+        Assertions.assertDoesNotThrow(() -> displayController.menu());
 
         String output = outputContent.toString().replaceAll("\\r\\n", "");
         String errorMessage = output.split(System.getProperty("line.separator"))[0];
