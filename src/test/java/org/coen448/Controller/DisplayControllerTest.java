@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -42,7 +43,6 @@ public class DisplayControllerTest {
 
     @BeforeEach
     public void setUpStreams() {
-        this.historyData = new HistoryData();
         System.setOut(new PrintStream(outputContent));
         System.setErr(new PrintStream(errorContent));
     }
@@ -284,4 +284,30 @@ public class DisplayControllerTest {
         Assertions.assertEquals(expected, errorMessage);
     }
 
+    @Test
+    public void GIVEN_replayWithHistory_WHEN_menu_THEN_success() {
+        historyData = new HistoryData();
+        commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
+
+        final ArrayList<String> inputs = new ArrayList<String>();
+        inputs.add("i 10");
+        inputs.add("m 3");
+        inputs.add("d");
+        inputs.add("r");
+        inputs.add("m 5");
+        inputs.add("p");
+
+        String expected = "";
+
+        for(String input : inputs) {
+            InputStream in = new ByteArrayInputStream(input.getBytes());
+            System.setIn(in);
+            Assertions.assertDoesNotThrow(() -> displayController.menu());
+            if(!input.equals("p")) expected += input + "\n";
+        }
+
+        String output = outputContent.toString().replaceAll("\\r\\n", "\n");
+
+        Assertions.assertEquals(expected, output);
+    }
 }
