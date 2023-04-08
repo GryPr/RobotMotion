@@ -100,7 +100,7 @@ public class DisplayControllerTest {
             "q", // stop program
             "h", //help
             "i 5", // initialize
-            "p"
+            "p" // replay history
     })
     public void GIVEN_validCommand_WHEN_menu_THEN_success(final String input) {
         InputStream in = new ByteArrayInputStream(input.getBytes());
