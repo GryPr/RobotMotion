@@ -1,6 +1,7 @@
 package org.coen448.Controller;
 
 import org.coen448.Configuration.DisplayConfiguration;
+import org.coen448.Data.HistoryData;
 import org.coen448.Exception.Error;
 import org.coen448.Exception.*;
 import org.coen448.Service.*;
@@ -11,33 +12,29 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class DisplayControllerTest {
+    ProgramStatusService programStatusService = mock(ProgramStatusService.class);
+    MoveService moveService = mock(MoveService.class);
+    PenService penService = mock(PenService.class);
+    TurnService turnService = mock(TurnService.class);
+    PrintService printService = mock(PrintService.class);
+    HistoryData historyData = new HistoryData();
+    CommandService commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
 
-    @Mock
-    ProgramStatusService programStatusService;
-    @Mock
-    MoveService moveService;
-    @Mock
-    PenService penService;
-    @Mock
-    TurnService turnService;
-    @Mock
-    PrintService printService;
-    @InjectMocks
-    DisplayController displayController;
+    DisplayController displayController = new DisplayController(commandService, programStatusService);
 
     private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errorContent = new ByteArrayOutputStream();
@@ -98,11 +95,12 @@ public class DisplayControllerTest {
             "r", // turn right
             "l", // turn left
             "m 5", // move
-            "p", // print array
+            "a", // print array
             "c", // print current position
             "q", // stop program
             "h", //help
-            "i 5" // initialize
+            "i 5", // initialize
+            "p" // replay history
     })
     public void GIVEN_validCommand_WHEN_menu_THEN_success(final String input) {
         InputStream in = new ByteArrayInputStream(input.getBytes());
@@ -222,7 +220,7 @@ public class DisplayControllerTest {
 
     @Test
     public void GIVEN_printMatrixWithNoInitException_WHEN_menu_THEN_printException() throws NoInitException {
-        final String input = "p";
+        final String input = "a";
         final String expected = BaseException.errorMessageMap.get(Error.NO_INIT_ERROR);
         doThrow(new NoInitException()).when(printService).printMatrix();
 
@@ -268,4 +266,48 @@ public class DisplayControllerTest {
         Assertions.assertEquals(expected, errorMessage);
     }
 
+    @Test
+    public void GIVEN_replayWithNoHistoryException_WHEN_menu_THEN_printException() {
+        historyData = new HistoryData();
+        commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
+
+        final String input = "p";
+        final String expected = BaseException.errorMessageMap.get(Error.NO_HISTORY_ERROR);
+
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        Assertions.assertDoesNotThrow(() -> displayController.menu());
+
+        String output = outputContent.toString().replaceAll("\\r\\n", "");
+        String errorMessage = output.split(System.getProperty("line.separator"))[0];
+
+        Assertions.assertEquals(expected, errorMessage);
+    }
+
+    @Test
+    public void GIVEN_replayWithHistory_WHEN_menu_THEN_success() {
+        historyData = new HistoryData();
+        commandService = new CommandService(programStatusService, moveService, penService, turnService, printService, historyData);
+
+        final ArrayList<String> inputs = new ArrayList<String>();
+        inputs.add("i 10");
+        inputs.add("m 3");
+        inputs.add("d");
+        inputs.add("r");
+        inputs.add("m 5");
+        inputs.add("p");
+
+        String expected = "";
+
+        for(String input : inputs) {
+            InputStream in = new ByteArrayInputStream(input.getBytes());
+            System.setIn(in);
+            Assertions.assertDoesNotThrow(() -> displayController.menu());
+            if(!input.equals("p")) expected += input + "\n";
+        }
+
+        String output = outputContent.toString().replaceAll("\\r\\n", "\n");
+
+        Assertions.assertEquals(expected, output);
+    }
 }
