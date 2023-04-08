@@ -37,9 +37,9 @@ public class DisplayController {
     public void menu() {
         Scanner sc = new Scanner(System.in);
         String input;
-
         try {
             input = sc.nextLine();
+            if(input.isEmpty()) throw new NoSuchElementException();
         } catch (NoSuchElementException e) {
             System.out.println(BaseException.errorMessageMap.get(Error.COMMAND_INPUT_ERROR));
             return;

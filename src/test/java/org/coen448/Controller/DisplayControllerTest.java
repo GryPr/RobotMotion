@@ -76,7 +76,8 @@ public class DisplayControllerTest {
             "u 123451", // single input command that's too long
             "m awdawdw", // double input command with non-numerical second input
             "m", // double input command with no second input
-            "m|12" // double input command with invalid separator
+            "m|12", // double input command with invalid separator
+            "\r" // Empty command
     })
     public void GIVEN_invalidCommand_WHEN_menu_THEN_outputErrorMessage(final String input) {
         InputStream in = new ByteArrayInputStream(input.getBytes());
